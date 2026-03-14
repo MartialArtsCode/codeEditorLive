@@ -1,0 +1,22 @@
+body {
+  margin: 0;
+  display: flex;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+textarea {
+  width: 50%;
+  height: 100%;
+  border: none;
+  padding: 10px;
+  font-family: monospace;
+  font-size: 14px;
+  outline: none;
+  resize: none;
+}
+iframe {
+  width: 50%;
+  height: 100%;
+  border: none;
+  background: #fff;
+}
