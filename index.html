@@ -1,62 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Live Code Editor</title>
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Code Editor</title>
+    <style>
+        body {
+            font-family: sans-serif; 
+            text-align: center; 
+            margin: 0; 
+            height: 100vh;
+            display: flex;
+            flex-direction: column; /* Arrange elements in a column */
+        }
+        h1 { 
+            color: purple; 
+        }
+        #editor {
+            width: 50%; 
+            height: 100%; /* Fill half the screen */
+            border: none; 
+            padding: 10px; 
+            font-family: monospace; 
+            font-size: 14px; 
+            outline: none; 
+            resize: none; 
+        }
+        #preview {
+            width: 100%; 
+            height: 50%; /* Fill the other half */
+            border: none; 
+            background: #fff; 
+        }
+    </style>
+</head>
+<body>
     <div>
         <h1>Live Code Editor</h1>
+        <textarea id="editor"></textarea>
     </div>
-    <!--Main to editor-->
     <div>
-        <body type="column", id="textarea">
-            <!DOCTYPE html>
-            <html lang="en">
-                <head>
-                    <meta charset="UTF-8">
-                    <meta name="viewport" content="width=device-width", initial-scale=1.0">
-                    <title>Your Embedded Code</title>
-                </head>
-                <body>
-                    <h1>Hello World!</h1>
-                    <p>Edit the code on the left and see results here.</p>
-                    <style>
-                        body {
-                            font-family: sans-serif; 
-                            text-align: center; 
-                            margin: 0; 
-                            height: 100vh;
-                            display: flex;
-                            flex-direction: column; /* Arrange elements in a column */
-                        }
-                        h1 { 
-                            color: purple; 
-                        }
-                        #editor {
-                            width: 50%; 
-                            height: 100%; /* Fill half the screen */
-                            border: none; 
-                            padding: 10px; 
-                            font-family: monospace; 
-                            font-size: 14px; 
-                            outline: none; 
-                            resize: none; 
-                        }
-                        #preview {
-                            width: 100%; 
-                            height: 50%; /* Fill the other half */
-                            border: none; 
-                            background: #fff; 
-                        }
-                    </style>
-                </body>
-                </textarea>
-                    <div>
-                        <iframe id="preview"></iframe>
-                    </div>
-            </html>
-        </body>
+        <iframe id="preview"></iframe>
     </div>
     <script>
         const editor = document.getElementById('editor');
@@ -70,4 +54,5 @@
         editor.addEventListener('input', updatePreview);
         window.onload = updatePreview;
     </script>
+</body>
 </html>
