@@ -4,7 +4,8 @@ const routes={
 
 return JSON.stringify([
 {name:"Alice"},
-{name:"Bob"}
+{name:"Bob"},
+{name:"Charlie"}
 ])
 
 }
@@ -13,18 +14,16 @@ return JSON.stringify([
 
 const originalFetch=window.fetch
 
-window.fetch=async(url,options)=>{
+window.fetch=async(url)=>{
 
-if(routes[url]){
+  if(routes[url]){
 
-return{
+    return{
+      json:async()=>JSON.parse(routes[url]())
+    }
 
-json:async()=>JSON.parse(routes[url]())
+  }
 
-}
-
-}
-
-return originalFetch(url,options)
+  return originalFetch(url)
 
 }
