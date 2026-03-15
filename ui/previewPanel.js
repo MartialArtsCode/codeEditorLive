@@ -68,6 +68,5 @@ export function inspectDOM() {
 /*
  * Optional auto refresh loop
  */
-setInterval(() => {
-    render();
-}, 500);
+setInterval(render, 500);
+
