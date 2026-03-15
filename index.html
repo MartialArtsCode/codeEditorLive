@@ -16,19 +16,6 @@
         font-family: sans-serif;
       }
 
-      #navigator {
-        flex: 0 0 220px; /* fixed width, shrinkable */
-        min-width: 150px; /* smallest size on mobile */
-        background: #111;
-        padding: 10px;
-        overflow-y: auto;
-      }
-
-      #editor {
-        flex: 1 1 50%;
-        min-width: 200px;
-      }
-
       #preview {
         flex: 1 1 50%;
         min-width: 200px;
@@ -56,6 +43,27 @@
         width:300px;
         height:200px;
         background:#000;
+      }
+
+      @media (max-width: 800px) {
+        body {
+          flex-direction: column;
+        }
+        
+        #navigator {
+          flex: 0 0 auto;
+          width: 100%;
+          min-width: 0;
+          height: 120px;
+          display: flex;
+          overflow-x: auto;
+        }
+
+        #editor, #preview {
+          flex: 1 1 50%;
+          width: 100%;
+          height: 50%;
+        }
       }
 
     </style>
