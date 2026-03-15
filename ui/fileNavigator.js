@@ -6,18 +6,27 @@ const files=["html","css","js","backend"]
 
 files.forEach(file=>{
 
-const btn=document.createElement("button")
+  const btn=document.createElement("button")
 
-btn.innerText=file
+  btn.innerText=file
 
-btn.onclick=()=>{
+  btn.onclick=()=>{
 
-project.activeFile=file
+    project.active=file
 
-editor.value=project.files[file]
+    editor.setValue(project.files[file])
 
-}
+    if(file==="html")
+      monaco.editor.setModelLanguage(editor.getModel(),"html")
 
-nav.appendChild(btn)
+    if(file==="css")
+      monaco.editor.setModelLanguage(editor.getModel(),"css")
+
+    if(file==="js")
+      monaco.editor.setModelLanguage(editor.getModel(),"javascript")
+
+  }
+
+  nav.appendChild(btn)
 
 })
