@@ -1,64 +1,64 @@
 <!DOCTYPE html>
-<html lang="eng>
+<html lang="en">
   <head>
-    <meta name:"viewport">
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
   <title>Web IDE</title>
+    
+    <style>
+      body{
+        margin:0;
+        display:grid;
+        grid-template-columns:250px 1fr 1fr;
+        height:100vh;
+        font-family:sans-serif;
+      }
+      
+      #navigator{
+        background:#111;
+        color:white;
+        padding:10px;
+      }
+      
+      #editor{
+        width:100%;
+        height:100%;
+        border:none;
+        font-family:monospace;
+      }
 
-<style>
+      #preview{
+        width:100%;
+        height:100%;
+        border:none;
+      }
+    </style>
+  </head>
+  
+  <body>
+    
+    <div id="navigator"></div>
+    
+    <textarea id="editor">
+      
+      <h2>User List</h2>
+      <ul id="users"></ul>
+    
+    </textarea>
+    
+    <iframe id="preview"></iframe>
 
-body{
-margin:0;
-display:grid;
-grid-template-columns:250px 1fr 1fr;
-height:100vh;
-font-family:sans-serif;
-}
+    <script type="module">
 
-#navigator{
-background:#111;
-color:white;
-padding:10px;
-}
-
-#editor{
-width:100%;
-height:100%;
-border:none;
-font-family:monospace;
-}
-
-#preview{
-width:100%;
-height:100%;
-border:none;
-}
-
-</style>
-</head>
-
-<body>
-
-<div id="navigator"></div>
-
-<textarea id="editor">
-  <h2>User List</h2>
-  <ul id="users"></ul>
-</textarea>
-
-<iframe id="preview"></iframe>
-
-<script type="module">
-
-import "./core/projectManager.js"
-import "./core/modeController.js"
-import "./ui/editorPanel.js"
-import "./ui/fileNavigator.js"
-import "./core/renderer.js"
-import "./visualization/dependencyGraph.js"
-import "./backend/mockServer.js"
-
-</script>
-
-</body>
+      import "./core/projectManager.js"
+      import "./core/modeController.js"
+      import "./ui/editorPanel.js"
+      import "./ui/fileNavigator.js"
+      import "./core/renderer.js"
+      import "./visualization/dependencyGraph.js"
+      import "./backend/mockServer.js"
+    
+    </script>
+  
+  </body>
 </html>
