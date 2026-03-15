@@ -6,19 +6,15 @@ require.config({
 
 require(["vs/editor/editor.main"],()=>{
 
-    window.editor=monaco.editor.create(document.getElementById("editor"),{
+    editor = monaco.editor.create(document.getElementById("editor"), {
 
-        value:project.files.html,
+        value: project.files.html,
+        language: "html",
+        theme: "vs-dark",
+        automaticLayout: true,  // important
+        tabSize: 4
+    });
 
-        language:"html",
-
-        theme:"vs-dark",
-
-        automaticLayout:true,
-
-        tabSize:4
-
-    })
 
     editor.onDidChangeModelContent(()=>{
 
