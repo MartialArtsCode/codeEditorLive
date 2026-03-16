@@ -38,8 +38,28 @@
   </header>
 
   <!-- rest of layout unchanged -->
-  <main class="layout"> ... </main>
-  <section class="graph-section"> ... </section>
+  <main class="layout">
+    <aside class="file-nav">
+      <h3>Files</h3>
+      <ul id="file-list"></ul>
+    </aside>
+
+    <section class="editor-section">
+      <div id="editor-container"></div>
+      <textarea id="fallback-textarea" spellcheck="false"></textarea>
+    </section>
+
+    <aside class="preview-section">
+      <h3>Live Preview</h3>
+      <iframe id="preview-frame" sandbox="allow-scripts allow-same-origin allow-modals"></iframe>
+      <div id="preview-errors" class="error-box"></div>
+    </aside>
+      
+  </main>
+  <section class="graph-section">
+    <h3>Dependency Graph (Cytoscape)</h3>
+    <div id="dependency-graph"></div>
+  </section>
 
   <!-- NEW Mock API Modal -->
   <dialog id="mock-modal">
