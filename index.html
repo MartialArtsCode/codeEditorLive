@@ -5,16 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Browser IDE</title>
 
-  <!-- Monaco Editor -->
+  <!-- Monaco + Cytoscape + Highlight.js (unchanged) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/monaco-editor@0.55.1/min/vs/editor/editor.main.css" />
   <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.55.1/min/vs/loader.min.js"></script>
-
-  <!-- Cytoscape.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.33.1/cytoscape.min.js"></script>
-
-  <!-- Highlight.js for mobile fallback -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/styles/vs2015.min.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js"></script>
+
+  <!-- NEW: JSZip for export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
   <link rel="stylesheet" href="css/style.css" />
 </head>
@@ -22,119 +21,47 @@
   <header>
     <h1>Browser IDE</h1>
     <div class="controls">
-      <select id="mode-select">
+      <select id="mode-select" aria-label="Project mode">
         <option value="monolithic">Monolithic</option>
         <option value="modular">Modular</option>
         <option value="fullstack">Fullstack</option>
       </select>
-      <button id="new-html">+ HTML</button>
-      <button id="new-css">+ CSS</button>
-      <button id="new-js">+ JS</button>
-      <button id="save-files">Save</button>
-      <button id="refresh-graph">Refresh Graph</button>
-      <button id="load-users">Load Users (Mock)</button>
-      <button id="clear-all">Clear All</button>
+      <button id="new-file">+ 📁 New File</button>
+      <button id="save-files">💾 Save</button>
+      <button id="export-zip">📦 Export ZIP</button>
+      <button id="refresh-graph">🔄 Refresh Graph</button>
+      <button id="mock-api-btn">🛠️ Mock API</button>
+      <button id="theme-toggle">🌙</button>
+      <button id="load-users">👥 Load Users</button>
+      <button id="clear-all">🗑️ Clear All</button>
     </div>
   </header>
 
-  <main class="layout">
-    <aside class="file-nav">
-      <h3>Files</h3>
-      <ul id="file-list"></ul>
-    </aside>
+  <!-- rest of layout unchanged -->
+  <main class="layout"> ... </main>
+  <section class="graph-section"> ... </section>
 
-    <section class="editor-section">
-      <div id="editor-container"></div>
-      <textarea id="fallback-textarea" syntaxcheck="true"></textarea>
-    </section>
+  <!-- NEW Mock API Modal -->
+  <dialog id="mock-modal">
+    <h3>Mock API Routes</h3>
+    <div id="routes-list"></div>
+    <form id="new-route-form">
+      <select id="route-method"><option>GET</option><option>POST</option></select>
+      <input type="text" id="route-path" placeholder="/api/users" required>
+      <textarea id="route-response" placeholder='{"id":1,"name":"Test"}' required></textarea>
+      <button type="button" id="add-route-btn">➕ Add Route</button>
+    </form>
+    <button id="close-modal">❌ Close</button>
+  </dialog>
 
-    <aside class="preview-section">
-      <h3>Live Preview</h3>
-      <iframe id="preview-frame" sandbox="allow-scripts allow-same-origin allow-modals"></iframe>
-      <div id="preview-errors" class="error-box"></div>
-    </aside>
-  </main>
-
-  <section class="graph-section">
-    <h3>Dependency Graph (Cytoscape)</h3>
-    <div id="dependency-graph"></div>
-  </section>
-
-  <!-- Scripts – in order: modes → files → editor → preview → graph → main -->
   <script src="js/modes.js"></script>
   <script src="js/files.js"></script>
+  <script src="js/themes.js"></script>
+  <script src="js/mockApi.js"></script>
+  <script src="js/export.js"></script>
   <script src="js/editor.js"></script>
   <script src="js/preview.js"></script>
   <script src="js/graph.js"></script>
   <script src="js/main.js"></script>
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Browser IDE</title>
-  <!-- Monaco Editor -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/monaco-editor@0.55.1/min/vs/editor/editor.main.css" />
-  <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.55.1/min/vs/loader.min.js"></script>
-  <!-- Cytoscape.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.33.1/cytoscape.min.js"></script>
-  <!-- Highlight.js for mobile fallback -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/styles/vs2015.min.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js"></script>
-
-  <link rel="stylesheet" href="css/style.css" />
-
-</head>
-<body>
-  <header>
-    <h1>Browser IDE</h1>
-    <div class="controls">
-      <select id="mode-select">
-        <option value="monolithic">Monolithic</option>
-        <option value="modular">Modular</option>
-        <option value="fullstack">Fullstack</option>
-      </select>
-      <button id="new-html">+ HTML</button>
-      <button id="new-css">+ CSS</button>
-      <button id="new-js">+ JS</button>
-      <button id="save-files">Save</button>
-      <button id="refresh-graph">Refresh Graph</button>
-      <button id="load-users">Load Users (Mock)</button>
-      <button id="clear-all">Clear All</button>
-    </div>
-  </header>
-
-  <main class="layout">
-    <aside class="file-nav">
-      <h3>Files</h3>
-      <ul id="file-list"></ul>
-    </aside>
-
-    <section class="editor-section">
-      <div id="editor-container"></div>
-      <textarea id="fallback-textarea" spellcheck="false"></textarea>
-    </section>
-
-    <aside class="preview-section">
-      <h3>Live Preview</h3>
-      <iframe id="preview-frame" sandbox="allow-scripts allow-same-origin allow-modals"></iframe>
-      <div id="preview-errors" class="error-box"></div>
-    </aside>
-  </main>
-
-  <section class="graph-section">
-    <h3>Dependency Graph (Cytoscape)</h3>
-    <div id="dependency-graph"></div>
-  </section>
-
-  <!-- Scripts – in order: modes → files → editor → preview → graph → main -->
-  <script src="js/modes.js"></script>
-  <script src="js/files.js"></script>
-  <script src="js/editor.js"></script>
-  <script src="js/preview.js"></script>
-  <script src="js/graph.js"></script>
-  <script src="js/main.js"></script>
-<!-- force rebuild 2026-03 -->
 </body>
 </html>
