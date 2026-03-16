@@ -12,16 +12,15 @@
     <title>Browser IDE</title>
     <meta name="application-name" content="Receipt Generator Pro">
     <meta name="msapplication-TileColor" content="#0f172a">
-    <meta name="format-detection" content="telephone=yes">
-    
+    <meta name="format-detection" content="telephone=yes">   
 </head>
-<body>
 
+    
+<body>
     <div id="navigator"></div>
     <div id="editor"></div>
     <iframe id="preview"></iframe>
     <canvas id="graph"></canvas>
-
     <div id="modeBar">
         <select id="modeSelector">
             <option value="monolithic">Monolithic</option>
@@ -29,6 +28,7 @@
             <option value="fullstack">Fullstack</option>
         </select>
     </div>
+</body>
     
     <script src="https://unpkg.com/monaco-editor@0.45.0/min/vs/loader.js"></script>
     <script type="module">
@@ -40,7 +40,6 @@
         import "./visualization/dependencyGraph.js";
         import "./backend/mockServer.js";
     </script>
-
-</body>
+    
 </html>
 
