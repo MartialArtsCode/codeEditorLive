@@ -3,22 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Code Editor Live</title>
+  <title>Browser IDE</title>
 
-  <!-- Monaco -->
+  <!-- Monaco Editor -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/monaco-editor@0.55.1/min/vs/editor/editor.main.css" />
   <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.55.1/min/vs/loader.min.js"></script>
 
-  <!-- Cytoscape.js CDN (latest stable 3.33.1 as of 2026) -->
+  <!-- Cytoscape.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.33.1/cytoscape.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/dagre/0.8.5/dagre.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape-dagre/2.5.0/cytoscape-dagre.min.js"></script>
 
-  <!-- highlight.js for textarea fallback syntax -->
+  <!-- Highlight.js for mobile fallback -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/styles/vs2015.min.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js"></script>
 
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
   <header>
@@ -59,10 +57,83 @@
 
   <section class="graph-section">
     <h3>Dependency Graph (Cytoscape)</h3>
-    <div id="dependency-graph" style="height:400px; border:1px solid #ccc;"></div>
+    <div id="dependency-graph"></div>
   </section>
 
-  <script src="script.js"></script>
+  <!-- Scripts – in order: modes → files → editor → preview → graph → main -->
+  <script src="js/modes.js"></script>
+  <script src="js/files.js"></script>
+  <script src="js/editor.js"></script>
+  <script src="js/preview.js"></script>
+  <script src="js/graph.js"></script>
+  <script src="js/main.js"></script>
 </body>
-<!-- force rebuild -->
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Browser IDE</title>
+  <!-- Monaco Editor -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/monaco-editor@0.55.1/min/vs/editor/editor.main.css" />
+  <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.55.1/min/vs/loader.min.js"></script>
+  <!-- Cytoscape.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.33.1/cytoscape.min.js"></script>
+  <!-- Highlight.js for mobile fallback -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/styles/vs2015.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js"></script>
+
+  <link rel="stylesheet" href="css/style.css" />
+
+</head>
+<body>
+  <header>
+    <h1>Browser IDE</h1>
+    <div class="controls">
+      <select id="mode-select">
+        <option value="monolithic">Monolithic</option>
+        <option value="modular">Modular</option>
+        <option value="fullstack">Fullstack</option>
+      </select>
+      <button id="new-html">+ HTML</button>
+      <button id="new-css">+ CSS</button>
+      <button id="new-js">+ JS</button>
+      <button id="save-files">Save</button>
+      <button id="refresh-graph">Refresh Graph</button>
+      <button id="load-users">Load Users (Mock)</button>
+      <button id="clear-all">Clear All</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="file-nav">
+      <h3>Files</h3>
+      <ul id="file-list"></ul>
+    </aside>
+
+    <section class="editor-section">
+      <div id="editor-container"></div>
+      <textarea id="fallback-textarea" spellcheck="false"></textarea>
+    </section>
+
+    <aside class="preview-section">
+      <h3>Live Preview</h3>
+      <iframe id="preview-frame" sandbox="allow-scripts allow-same-origin allow-modals"></iframe>
+      <div id="preview-errors" class="error-box"></div>
+    </aside>
+  </main>
+
+  <section class="graph-section">
+    <h3>Dependency Graph (Cytoscape)</h3>
+    <div id="dependency-graph"></div>
+  </section>
+
+  <!-- Scripts – in order: modes → files → editor → preview → graph → main -->
+  <script src="js/modes.js"></script>
+  <script src="js/files.js"></script>
+  <script src="js/editor.js"></script>
+  <script src="js/preview.js"></script>
+  <script src="js/graph.js"></script>
+  <script src="js/main.js"></script>
+</body>
 </html>
