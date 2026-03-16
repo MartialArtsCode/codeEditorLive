@@ -41,18 +41,18 @@ View real-time previews in the preview panel.
 Folder Structure
 
 codeEditorLive/
-├── index.html           # Main entry point
-├── core/
-│   ├── projectManager.js       # Manages project files
-│   ├── renderer.js              # Renders the code preview
-│   ├── modeController.js        # Handles mode switching
-├── ui/
-│   ├── editorPanel.js           # Editor panel functionality
-│   ├── fileNavigator.js          # File navigator
-├── visualization/
-│   ├── dependencyGraph.js       # Visualizes code dependencies
-└── backend/
-    ├── mockServer.js            # Mock server for API calls
+  ├── index.html           # Main entry point
+  ├── core/
+  │   ├── projectManager.js       # Manages project files
+  │   ├── renderer.js              # Renders the code preview
+  │   ├── modeController.js        # Handles mode switching
+  ├── ui/
+  │   ├── editorPanel.js           # Editor panel functionality
+  │   ├── fileNavigator.js          # File navigator
+  ├── visualization/
+  │   ├── dependencyGraph.js       # Visualizes code dependencies
+  └── backend/
+      ├── mockServer.js            # Mock server for API calls
 
 
 Contributing
