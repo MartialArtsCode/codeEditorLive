@@ -1,15 +1,13 @@
-# Browser IDE
+# Browser IDE – Enhanced
 
-A simple in-browser code editor with live preview, file management, dependency graph, and mock API support.
+**New features added:**
+- Full folder support (create paths like `src/components/Button.js`)
+- Better Mock API manager (modal with add/delete routes)
+- Export entire project as ZIP (preserves folders)
+- Light/Dark theme toggle
+- More languages: Python, JSON, Markdown, TypeScript, YAML (Monaco auto-detects)
 
-## Features
-
-- Monaco Editor (desktop) + textarea fallback (mobile)
-- Real-time preview in iframe
-- Multiple files & modes (Monolithic / Modular / Fullstack)
-- Basic mock API router
-- Dependency graph with Cytoscape.js
-- LocalStorage persistence
+Just open `index.html` (use Live Server recommended) and enjoy!
 
 ## How to run locally
 
