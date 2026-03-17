@@ -2,13 +2,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize themes and mock routes
     initTheme();
     loadMockRoutes();
+    loadFromStorage();
 
     // Assigning event handlers
     setupEventHandlers();
 
     // Auto-load default mode if there are no files
     if (Object.keys(files).length === 0) {
-        loadMode('monolithic');
+        loadMode('monolithic', true);
     }
 
     updateFileList();
@@ -24,22 +25,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Function to setup event handlers
 function setupEventHandlers() {
-    document.getElementById('new-file').onclick = addNewFile;
-    document.getElementById('export-zip').onclick = exportToZip;
-    document.getElementById('mock-api-btn').onclick = openMockModal;
-    document.getElementById('theme-toggle').onclick = toggleTheme;
+    // File actions dropdown
+    const fileSelect = document.getElementById('file-select');
+    fileSelect.onchange = e => {
+        const action = e.target.value;
+        // Reset dropdown to placeholder after action
+        e.target.selectedIndex = 0;
+
+        switch (action) {
+            case 'new-file':    addNewFile(); break;
+            case 'save-files':  saveToStorage(); break;
+            case 'export-zip':  exportToZip(); break;
+            case 'refresh-graph': updateGraph(); break;
+            case 'mock-api':    openMockModal(); break;
+            case 'theme-toggle': toggleTheme(); break;
+            case 'load-users':  loadUsers(); break;
+            case 'clear-all':   clearAllData(); break;
+        }
+    };
+
+    // Mode selector
+    document.getElementById('mode-select').onchange = e => loadMode(e.target.value);
 
     // Modal events
     document.getElementById('add-route-btn').onclick = handleAddRoute;
     document.getElementById('close-modal').onclick = () => document.getElementById('mock-modal').close();
-
-    document.getElementById('save-files').onclick = saveToStorage;
-    document.getElementById('refresh-graph').onclick = updateGraph;
-
-    document.getElementById('load-users').onclick = loadUsers;
-    document.getElementById('clear-all').onclick = clearAllData;
-
-    document.getElementById('mode-select').onchange = e => loadMode(e.target.value);
 
     document.addEventListener('click', closeContextMenus);
 }
@@ -77,5 +87,25 @@ function closeContextMenus(e) {
 
 // Function to handle adding a new route
 function handleAddRoute() {
-    // add route logic implementation
+    const method = document.getElementById('route-method').value;
+    const path = document.getElementById('route-path').value.trim();
+    const response = document.getElementById('route-response').value.trim();
+    if (!path || !response) return;
+
+    // Validate JSON
+    try {
+        JSON.parse(response);
+    } catch {
+        alert('Response must be valid JSON.');
+        return;
+    }
+
+    const key = `${method} ${path}`;
+    mockRoutes[key] = response;
+    saveMockRoutes();
+    renderRoutesList();
+
+    // Clear form inputs
+    document.getElementById('route-path').value = '';
+    document.getElementById('route-response').value = '';
 }
