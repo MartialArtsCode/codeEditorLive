@@ -7,7 +7,11 @@ function loadMockRoutes() {
 
 function initializeDefaultRoutes() {
     return {
-        'GET /api/users': () => ({ id: 1, name: "Leanne Graham" })
+        'GET /api/users': JSON.stringify([
+            { id: 1, name: "Leanne Graham" },
+            { id: 2, name: "Ervin Howell" }
+        ]),
+        'GET /api/todos/:id': JSON.stringify({ id: 1, title: "Todo #1", completed: false })
     };
 }
 
@@ -35,7 +39,18 @@ function renderRoutesList() {
 function createRouteItem(route) {
     const div = document.createElement('div');
     div.className = 'route-item';
-    div.innerHTML = `<strong>${route}</strong> <button data-route="${route}" class="delete-route">×</button>`;
+
+    const strong = document.createElement('strong');
+    strong.textContent = route;
+
+    const btn = document.createElement('button');
+    btn.textContent = '×';
+    btn.className = 'delete-route';
+    btn.dataset.route = route;
+
+    div.appendChild(strong);
+    div.appendChild(document.createTextNode(' '));
+    div.appendChild(btn);
     return div;
 }
 
