@@ -26,5 +26,3 @@ function renderRoutesList() {
     container.appendChild(div);
   });
 }
-
-// Add route logic + delete listeners (in main.js event setup)
