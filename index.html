@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Browser IDE</title>
 
-  <!-- Monaco + Cytoscape + Highlight.js (unchanged) -->
+  <!-- Dependencies -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.33.1/cytoscape.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
@@ -18,6 +18,7 @@
   <header class="header">
     <div class="title">Live Code Editor</div>
     <nav class="nav">
+      <label for="mode-select">Project Mode:</label>
       <select id="mode-select" class="dropdownbtn" aria-label="Project Mode">
         <option value="monolithic">Monolithic</option>
         <option value="modular">Modular</option>
@@ -25,21 +26,21 @@
       </select>
     </nav>
     <nav class="nav">
+      <label for="file-select">File Actions:</label>
       <select id="file-select" class="dropdownbtn" aria-label="Select File">
-        <button id="new-file">+ 📁 New File</button>
-        <button id="save-files">💾 Save</button>
-        <button id="export-zip">📦 Export ZIP</button>
-        <button id="refresh-graph">🔄 Refresh Graph</button>
-        <button id="mock-api-btn">🛠️ Mock API</button>
-        <button id="theme-toggle">🌙</button>
-        <button id="load-users">👥 Load Users</button>
-        <button id="clear-all">🗑️ Clear All</button>
+        <option value="" disabled selected>Select Action</option>
+        <option value="new-file">+ 📁 New File</option>
+        <option value="save-files">💾 Save</option>
+        <option value="export-zip">📦 Export ZIP</option>
+        <option value="refresh-graph">🔄 Refresh Graph</option>
+        <option value="mock-api">🛠️ Mock API</option>
+        <option value="theme-toggle">🌙 Toggle Theme</option>
+        <option value="load-users">👥 Load Users</option>
+        <option value="clear-all">🗑️ Clear All</option>
       </select>
     </nav>
-    </div>
   </header>
 
-  <!-- rest of layout unchanged -->
   <main class="layout">
     <aside class="file-nav">
       <h3>Files</h3>
@@ -48,7 +49,7 @@
 
     <section class="editor-section">
       <div id="editor-container"></div>
-      <textarea id="fallback-textarea" spellcheck="false"></textarea>
+      <textarea id="fallback-textarea" spellcheck="false" placeholder="Write your code here"></textarea>
     </section>
 
     <aside class="preview-section">
@@ -56,34 +57,40 @@
       <iframe id="preview-frame" sandbox="allow-scripts allow-same-origin allow-modals"></iframe>
       <div id="preview-errors" class="error-box"></div>
     </aside>
-      
   </main>
+
   <section class="graph-section">
     <h3>Dependency Graph (Cytoscape)</h3>
     <div id="dependency-graph"></div>
   </section>
 
-  <!-- NEW Mock API Modal -->
+  <!-- Mock API Modal -->
   <dialog id="mock-modal">
     <h3>Mock API Routes</h3>
     <div id="routes-list"></div>
     <form id="new-route-form">
-      <select id="route-method"><option>GET</option><option>POST</option></select>
+      <label for="route-method">Choose method:</label>
+      <select id="route-method">
+        <option>GET</option>
+        <option>POST</option>
+      </select>
+      <label for="route-path">API Route:</label>
       <input type="text" id="route-path" placeholder="/api/users" required>
+      <label for="route-response">Response:</label>
       <textarea id="route-response" placeholder='{"id":1,"name":"Test"}' required></textarea>
       <button type="button" id="add-route-btn">➕ Add Route</button>
     </form>
     <button id="close-modal">❌ Close</button>
   </dialog>
 
-  <script src="js/modes.js"></script>     <!-- defines starterTemplates & loadMode -->
-  <script src="js/files.js"></script>     <!-- defines files, currentFile, buildFileTree, etc. -->
+  <script src="js/modes.js"></script>
+  <script src="js/files.js"></script>
   <script src="js/themes.js"></script>
   <script src="js/mockApi.js"></script>
   <script src="js/export.js"></script>
   <script src="js/editor.js"></script>
-  <script src="js/preview.js"></script>   <!-- defines updatePreview -->
+  <script src="js/preview.js"></script>
   <script src="js/graph.js"></script>
-  <script src="js/main.js"></script>      <!-- DOMContentLoaded + calls everything -->
+  <script src="js/main.js"></script>
 </body>
 </html>
