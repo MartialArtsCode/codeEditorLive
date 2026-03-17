@@ -20,6 +20,7 @@ function initMonaco() {
             fontSize: 14,
             tabSize: 2
         });
+        window.monacoEditor = monacoEditor;
 
         // Handle content change events
         monacoEditor.onDidChangeModelContent(() => {
