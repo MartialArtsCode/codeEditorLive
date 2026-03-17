@@ -1,18 +1,3 @@
-document.addEventListener('DOMContentLoaded', () => {
-  // ... existing init ...
-  initTheme();
-  loadMockRoutes();
-
-  document.getElementById('new-file').onclick = addNewFile;
-  document.getElementById('export-zip').onclick = exportToZip;
-  document.getElementById('mock-api-btn').onclick = openMockModal;
-  document.getElementById('theme-toggle').onclick = toggleTheme;
-
-  // Modal events
-  document.getElementById('add-route-btn').onclick = () => { /* add route logic */ };
-  document.getElementById('close-modal').onclick = () => document.getElementById('mock-modal').close();
-});
-
 function updatePreview() {
   const frame = document.getElementById('preview-frame');
   const doc = frame.contentDocument || frame.contentWindow.document;
@@ -23,7 +8,7 @@ function updatePreview() {
   let htmlFile = Object.keys(files).find(f => f.endsWith('.html')) || null;
   if (!htmlFile) {
     doc.open();
-    doc.write('<h2 style="text-align:center; color:#666; padding:40px;">No HTML file found<br><small>Add one with +HTML button or switch mode</small></h2>');
+    doc.write('<h2 style="text-align:center; color:#666; padding:40px;">No HTML file found<br><small>Add one with + New File or switch mode</small></h2>');
     doc.close();
     return;
   }
@@ -34,24 +19,40 @@ function updatePreview() {
   const js  = Object.keys(files).filter(f => f.endsWith('.js')).map(f => files[f]).join(';\n');
 
   html = html.replace(/<\/head>/i, `<style>${css}</style></head>`);
-  html = html.replace(/<\/body>/i, `<script>${js}</script></body>`);
+  html = html.replace(/<\/body>/i, `<script>${js}<\/script></body>`);
+
+  // Serialize mock routes as data for the iframe's fetch interceptor
+  const routeData = JSON.stringify(mockRoutes);
 
   doc.open();
   doc.write(`
     <script>
+      const mockRouteData = ${routeData};
+      function matchRoute(path, route) {
+        const regex = new RegExp('^' + route.replace(/:([^\\/]+)/g, '([^\\/]+)') + '$');
+        const match = path.match(regex);
+        if (!match) return null;
+        const params = {};
+        (route.match(/:([^\\/]+)/g) || []).forEach((p, i) => {
+          params[p.slice(1)] = match[i + 1];
+        });
+        return params;
+      }
       const originalFetch = window.fetch;
       window.fetch = async (input, init) => {
         const url = typeof input === 'string' ? input : input.url;
-        const method = (init?.method || 'GET').toUpperCase();
-        const key = \`\${method} \${url}\`;
-        ${JSON.stringify(mockRoutes)}
-        for (const [route, handler] of Object.entries(mockRoutes)) {
-          const [rMethod, rPath] = route.split(' ');
+        const method = (init && init.method || 'GET').toUpperCase();
+        for (const [route, responseBody] of Object.entries(mockRouteData)) {
+          const parts = route.split(' ');
+          const rMethod = parts[0];
+          const rPath = parts[1];
           if (rMethod === method) {
             const params = matchRoute(url, rPath);
             if (params !== null) {
-              const req = { json: async () => init?.body ? JSON.parse(init.body) : {} };
-              return await handler(params, req);
+              return new Response(responseBody, {
+                status: 200,
+                headers: { 'Content-Type': 'application/json' }
+              });
             }
           }
         }
@@ -67,31 +68,3 @@ function updatePreview() {
     errorBox.style.display = 'block';
   };
 }
-
-// Simple mock router (expand as needed)
-const mockRoutes = {
-  'GET /api/users': () => new Response(JSON.stringify([
-    { id: 1, name: "Leanne Graham" },
-    { id: 2, name: "Ervin Howell" }
-  ]), { status: 200, headers: { 'Content-Type': 'application/json' } }),
-
-  'GET /api/todos/:id': (params) => new Response(JSON.stringify({
-    id: params.id,
-    title: `Todo #${params.id}`,
-    completed: false
-  }), { status: 200, headers: { 'Content-Type': 'application/json' } })
-};
-
-function matchRoute(path, route) {
-  const regex = new RegExp('^' + route.replace(/:([^/]+)/g, '([^/]+)') + '$');
-  const match = path.match(regex);
-  if (!match) return null;
-  const params = {};
-  route.match(/:([^/]+)/g)?.forEach((p, i) => {
-    params[p.slice(1)] = match[i + 1];
-  });
-  return params;
-}
-// Expose to global scope so files.js can call it
-window.updatePreview = updatePreview;
-window.updateGraph = updateGraph;   // if needed in other files
