@@ -1,14 +1,11 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Initialize themes and mock routes
+document.addEventListener('DOMContentLoaded'), () => {
     initTheme();
     loadMockRoutes();
     loadFromStorage();
 
     // Assigning event handlers
-    setupEventHandlers();
-
-    // Auto-load default mode if there are no files
-    if (Object.keys(files).length === 0) {
+    const setupEventHandlers();
+        if (Object.keys(files).length === 0) {
         loadMode('monolithic', true);
     }
 
