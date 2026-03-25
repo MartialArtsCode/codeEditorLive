@@ -17,4 +17,9 @@ function applyTheme() {
   if (window.monacoEditor) {
     monaco.editor.setTheme(currentTheme === 'dark' ? 'vs-dark' : 'vs');
   }
+  const ta = document.getElementById('fallback-textarea');
+  if (ta) {
+    ta.style.background = currentTheme === 'light' ? '#fff' : '#1e1e1e';
+    ta.style.color = currentTheme === 'light' ? '#333' : '#d4d4d4';
+  }
 }

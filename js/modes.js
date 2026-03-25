@@ -60,8 +60,11 @@ const starterTemplates = {
 function loadMode(mode, skipConfirm) {
     if (!skipConfirm && !confirm(`Load ${mode} template? Current files will be replaced.`)) return;
 
-    // Load the selected template into files
     files = { ...starterTemplates[mode] };
-
-    // Set the current file to the index.html or the first available HTML file
- 
+    currentFile = Object.keys(files).find(f => f.endsWith('.html')) || Object.keys(files)[0] || null;
+    updateFileList();
+    switchFile(currentFile);
+    saveToStorage();
+    updatePreview();
+    updateGraph();
+}

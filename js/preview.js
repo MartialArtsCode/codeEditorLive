@@ -8,7 +8,13 @@ function updatePreview() {
   let htmlFile = Object.keys(files).find(f => f.endsWith('.html')) || null;
   if (!htmlFile) {
     doc.open();
-    doc.write('<h2 style="text-align:center; color:#666; padding:40px;">No HTML file found<br><small>Add one with + New File or switch mode</small></h2>');
+    doc.write(`<div style="display:flex;align-items:center;justify-content:center;height:100%;font-family:system-ui,sans-serif;color:#888;text-align:center;padding:40px;">
+      <div>
+        <div style="font-size:48px;margin-bottom:16px;">📄</div>
+        <h2 style="margin:0 0 8px;color:#666;">No HTML file found</h2>
+        <p style="margin:0;font-size:14px;">Add one with <strong>+ New File</strong> or switch project mode</p>
+      </div>
+    </div>`);
     doc.close();
     return;
   }

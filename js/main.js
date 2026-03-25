@@ -3,9 +3,11 @@ document.addEventListener('DOMContentLoaded', () => {
     loadMockRoutes();
     loadFromStorage();
 
-    // Assigning event handlers
-    setupEventHandlers(); // Changed to call function correctly
-    if (Object.keys(files).length === 0) { // Added braces
+    // Setup event handlers
+    setupEventHandlers();
+
+    // Auto-load default mode if there are no files
+    if (Object.keys(files).length === 0) {
         loadMode('monolithic', true);
     }
 
@@ -19,13 +21,12 @@ document.addEventListener('DOMContentLoaded', () => {
     updatePreview();
     updateGraph();
 
-    // Function to setup event handlers
-    const setupEventHandlers = () => { // Corrected function declaration
+    // Setup all event handlers
+    function setupEventHandlers() {
         // File actions dropdown
         const fileSelect = document.getElementById('file-select');
         fileSelect.onchange = e => {
             const action = e.target.value;
-            // Reset dropdown to placeholder after action
             e.target.selectedIndex = 0;
 
             switch (action) {
@@ -48,14 +49,14 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('close-modal').onclick = () => document.getElementById('mock-modal').close();
 
         document.addEventListener('click', closeContextMenus);
-    };
+    }
 
-    // Function to find the initial file to switch to
+    // Find the initial file to display
     function findInitialFile() {
         return Object.keys(files).find(f => f.endsWith('.html'));
     }
 
-    // Function to load users via API
+    // Load users via API
     async function loadUsers() {
         try {
             const res = await fetch('/api/users');
@@ -66,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Function to clear all data
+    // Clear all data
     function clearAllData() {
         if (confirm('Clear everything?')) {
             localStorage.removeItem('browser-ide-files');
@@ -74,21 +75,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Function to close context menus when clicking outside
+    // Close context menus when clicking outside
     function closeContextMenus(e) {
         if (!e.target.closest('.file-nav li')) {
             document.querySelectorAll('.context-menu').forEach(m => m.style.display = 'none');
         }
     }
 
-    // Function to handle adding a new route
+    // Handle adding a new mock route
     function handleAddRoute() {
         const method = document.getElementById('route-method').value;
         const path = document.getElementById('route-path').value.trim();
         const response = document.getElementById('route-response').value.trim();
         if (!path || !response) return;
 
-        // Validate JSON
         try {
             JSON.parse(response);
         } catch {
@@ -101,7 +101,6 @@ document.addEventListener('DOMContentLoaded', () => {
         saveMockRoutes();
         renderRoutesList();
 
-        // Clear form inputs
         document.getElementById('route-path').value = '';
         document.getElementById('route-response').value = '';
     }
